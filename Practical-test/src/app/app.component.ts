@@ -1,5 +1,7 @@
+import { OrderDetails } from './services/model/orderDetails';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray  } from '@angular/forms';
+import { SharedService } from './services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -19,92 +21,83 @@ export class AppComponent {
   myCheckbox3: boolean = false;
   myCheckbox4: boolean = false;
 
-allOrdervalue:number = 0;
 allOrderDiscountvalue:number = 0;
-totalAmount:number = 0;
-totalItemAValue: number =0;
-totalItemBValue: number =0;
-totalItemCValue: number =0;
-totalItemDValue : number =0;
+
 discount1: number =0;
 discount2: number =0;
 discount3: number =0;
 discount4: number =0;
-delivery: number =0;
-totalDiscount: number =0;
 discountAvailable : boolean = false;
 
+orderDetails = new OrderDetails();
  weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   d = new Date();
   day = this.weekday[this.d.getDay()];
+  constructor(private  service: SharedService) {
 
+}
 calculateOrderValue(){
   if(this.myCheckbox1){
-    this.totalItemAValue = this.inputItemA * 100
+    this.orderDetails.ItemA = this.inputItemA * 100
   }
   if(this.myCheckbox2){
-    this.totalItemBValue = this.inputItemB * 200
+    this.orderDetails.ItemB = this.inputItemB * 200
   }
   if(this.myCheckbox3){
-    this.totalItemCValue = this.inputItemC * 500
+    this.orderDetails.ItemC = this.inputItemC * 500
   }
   if(this.myCheckbox4){
-    this.totalItemDValue = this.inputItemD * 300
+    this.orderDetails.ItemD = this.inputItemD * 300
   }
 }
 calculateTotalOrderValue(){
-  this.allOrdervalue=  this.totalItemAValue+ this.totalItemBValue + this.totalItemCValue + this.totalItemDValue;
+  this.orderDetails.SubTotal=  this.orderDetails.ItemA+ this.orderDetails.ItemB + this.orderDetails.ItemC + this.orderDetails.ItemD;
 }
 
 calculateDiscountedValue(){
   if(this.day == "Wednesday" || this.day == "Thursday"){
     this.discountAvailable = true;
-    if ( this.allOrdervalue >= 5000){
+    if ( this.orderDetails.SubTotal >= 5000){
       this.discount1 = 500;
-      this.allOrderDiscountvalue = this.allOrdervalue - this.discount1;
+      this.allOrderDiscountvalue = this.orderDetails.SubTotal - this.discount1;
     }
-    else if ( this.allOrdervalue >= 4500 && this.allOrdervalue < 5000){
-      this.discount2 = (this.allOrdervalue * 10)/100;
-      this.allOrderDiscountvalue = this.allOrdervalue - this.discount2;
+    else if ( this.orderDetails.SubTotal >= 4500 && this.orderDetails.SubTotal < 5000){
+      this.discount2 = (this.orderDetails.SubTotal * 10)/100;
+      this.allOrderDiscountvalue = this.orderDetails.SubTotal - this.discount2;
     }
-    else if ( this.allOrdervalue >= 2000 && this.allOrdervalue < 4500){
-      this.discount3 = (this.allOrdervalue * 8)/100;
-      this.allOrderDiscountvalue = this.allOrdervalue - this.discount3;
+    else if ( this.orderDetails.SubTotal >= 2000 && this.orderDetails.SubTotal < 4500){
+      this.discount3 = (this.orderDetails.SubTotal * 8)/100;
+      this.allOrderDiscountvalue = this.orderDetails.SubTotal - this.discount3;
     }
-    else if ( this.allOrdervalue >= 1500 && this.allOrdervalue < 2000){
+    else if ( this.orderDetails.SubTotal >= 1500 && this.orderDetails.SubTotal < 2000){
       this.discount4 = 50;
-      this.allOrderDiscountvalue = this.allOrdervalue - this.discount4;
+      this.allOrderDiscountvalue = this.orderDetails.SubTotal - this.discount4;
     }
     else{
-      this.allOrderDiscountvalue = this.allOrdervalue
+      this.allOrderDiscountvalue = this.orderDetails.SubTotal
     }
-    this.totalDiscount = this.discount1+this.discount2+this.discount3+this.discount4;
+    this.orderDetails.Discount = this.discount1+this.discount2+this.discount3+this.discount4;
   }
   else{
-    this.allOrderDiscountvalue = this.allOrdervalue
+    this.allOrderDiscountvalue = this.orderDetails.SubTotal
   }
 
 }
 
 calculateDeliveryCharge(){
 if (this.allOrderDiscountvalue <= 1000){
-  this.delivery = 80;
-this.totalAmount = this.allOrderDiscountvalue + this.delivery;
+  this.orderDetails.DeliveryCharge = 80;
+  this.orderDetails.TotalAmount = this.allOrderDiscountvalue + this.orderDetails.DeliveryCharge;
 }
 else if (this.allOrderDiscountvalue > 1000 && this.allOrderDiscountvalue < 3000){
-  this.delivery = 50;
-  this.totalAmount = this.allOrderDiscountvalue + this.delivery;
+  this.orderDetails.DeliveryCharge = 50;
+  this.orderDetails.TotalAmount = this.allOrderDiscountvalue + this.orderDetails.DeliveryCharge;
   }
 else{
-    this.totalAmount = this.allOrderDiscountvalue;
+    this.orderDetails.TotalAmount = this.allOrderDiscountvalue;
     }
 }
-  constructor(
-    private formBuilder: FormBuilder,
-) {
-    // redirect to home if already logged in
 
-}
 
 onSubmit(data:any) {
   this.inputItemA = data.inputItemA;
@@ -119,6 +112,8 @@ onSubmit(data:any) {
   this.calculateTotalOrderValue();
   this.calculateDiscountedValue();
   this.calculateDeliveryCharge();
+  this.service.saveOrderDetails(this.orderDetails).subscribe((orderDetails) => {});
+  console.log("data has gone");
 }
   ngOnInit() {
     this.formdata = new FormGroup({

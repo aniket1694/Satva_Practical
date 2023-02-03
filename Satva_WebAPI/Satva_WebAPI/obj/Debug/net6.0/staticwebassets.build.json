@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "F282TvkBQ7DabUXRmqxNJ99EzJZrlw8acK4yVMDZTX0=",
+  "Source": "Satva_WebAPI",
+  "BasePath": "_content/Satva_WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
