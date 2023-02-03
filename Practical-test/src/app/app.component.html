@@ -1,0 +1,123 @@
+<h1>Practical-Test</h1>
+<div class="container-fluid">
+  <form class="row g-3" [formGroup] = "formdata" (ngSubmit) = "onSubmit(formdata.value)">
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="myCheckbox1" [formControl]="formdata.controls['myCheckbox1']">
+        <label class="form-check-label" for="itemA">
+          Item A
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <input type="number" class="form-control" formControlName = "inputItemA" id="inputItemA"  aria-describedby="inputGroupPrepend2" required>
+        <span class="input-group-text" id="inputGroupPrepend2">* 100</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="myCheckbox2" [formControl]="formdata.controls['myCheckbox2']">
+        <label class="form-check-label" for="itemB">
+          Item B
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+
+        <input type="number" class="form-control" formControlName = "inputItemB"id="inputItemB"  aria-describedby="inputGroupPrepend2" required>
+        <span class="input-group-text" id="inputGroupPrepend2">* 200</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="myCheckbox3" [formControl]="formdata.controls['myCheckbox3']">
+        <label class="form-check-label" for="itemC">
+          Item C
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+
+        <input type="number" class="form-control" formControlName = "inputItemC" id="inputItemC"  aria-describedby="inputGroupPrepend2" required>
+        <span class="input-group-text" id="inputGroupPrepend2">* 500</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="myCheckbox4" [formControl]="formdata.controls['myCheckbox4']">
+        <label class="form-check-label" for="itemD">
+          Item D
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+
+        <input type="number" class="form-control" formControlName = "inputItemD" id="inputItemD"  aria-describedby="inputGroupPrepend2" required>
+        <span class="input-group-text" id="inputGroupPrepend2">* 300</span>
+      </div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit form</button>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+       <h3>Output</h3>
+      </tr>
+      <div *ngIf="discountAvailable; else elseBlock">
+        Discount Available
+    </div>
+
+    <ng-template #elseBlock>
+       No Discount today
+    </ng-template>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight: bold ;">Item</td>
+        <td style="font-weight: bold ;">Price</td>
+
+      </tr>
+      <tr>
+        <td>Item A</td>
+
+        <td>{{totalItemAValue}}</td>
+      </tr>
+      <tr>
+        <td>Item B</td>
+        <td>{{totalItemBValue}}</td>
+      </tr>
+      <tr>
+        <td>Item C</td>
+        <td>{{totalItemCValue}}</td>
+      </tr>
+      <tr>
+        <td>Item D</td>
+        <td>{{totalItemDValue}}</td>
+      </tr>
+      <tr>
+        <td>Sub Total</td>
+        <td>{{allOrdervalue}}</td>
+      </tr>
+      <tr>
+        <td>Discount</td>
+        <td>{{totalDiscount}}</td>
+      </tr>
+      <tr>
+        <td>Delivery</td>
+        <td>{{delivery}}</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold ;">Total</td>
+        <td>{{totalAmount}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
