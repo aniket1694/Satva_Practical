@@ -1,4 +1,4 @@
-import { OrderDetails } from './services/model/orderDetails';
+import { OrderDetails } from './model/orderDetails';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray  } from '@angular/forms';
 import { SharedService } from './services/shared.service';

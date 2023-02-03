@@ -1,4 +1,4 @@
-import { OrderDetails } from './model/orderDetails';
+import { OrderDetails } from '../model/orderDetails';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, Observable, throwError } from 'rxjs';
